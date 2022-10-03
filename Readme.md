@@ -55,3 +55,20 @@ test sur l'input aussi, genre ctrl X est-ce que ça fait ce qu'on veut
 test sur les insert, sur les update (vérifier qu'on veut bien ajouter à la quantité existante )
 test de base de données aussi, si on a le droit aux doublons etc
 tout ce qui paraît évident doit être testé
+
+fuzzing testing - tous les types d'input (item et nombre)
+surcharger la base  
+nom vide dans l'input
+soit on teste cohérence soit une seule connexion à la fois (plutôt sur la cohérence)
+- modif accessible sur l'autre session
+- deux modifs "en même temps" ne s'écrasent pas
+
+tests d'intégration sur toutes les méthodes 
+
+## à faire
+
+- ajouter les cas extrêmes sur les input reçus (Bekir) => tester, mutation testing 
+- tests d'intégration (Tom)
+- tests sur les input (sûrement un bash) / fuzzing (Louis)
+- tests sur le fonctionnement de la bdd (cohérence, surcharge) sûrement un bash aussi du coup (david)
+- 

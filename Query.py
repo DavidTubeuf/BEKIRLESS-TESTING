@@ -69,3 +69,6 @@ class Query:
         rows = cursor.fetchall()
         for row in rows:
             print("- " + str(row[0]) + " " + row[1])
+
+
+    ## potentiellement supprimer une quantité ou vider la liste
