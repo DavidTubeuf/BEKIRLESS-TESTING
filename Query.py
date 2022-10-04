@@ -63,12 +63,14 @@ class Query:
         cur.execute("UPDATE QUANTITY SET QTY = QTY + ? WHERE PERSONNAME = ? AND ITEMNAME = ?", (added_qty, person_name, item_name))
         self.conn.commit()
     
-    def print_list(self, person_name):
+    def get_list(self, person_name):
         cursor= self.conn.cursor()
         cursor.execute("SELECT qty, itemname FROM QUANTITY WHERE PERSONNAME=?", (person_name,))
         rows = cursor.fetchall()
-        for row in rows:
-            print("- " + str(row[0]) + " " + row[1])
-
-
-    ## potentiellement supprimer une quantité ou vider la liste
+        if not rows:
+            return "Votre liste est vide."
+        else:
+            list = ""
+            for row in rows:
+                list += "- " + str(row[0]) + " " + row[1] +"\n"
+            return list[:-1]

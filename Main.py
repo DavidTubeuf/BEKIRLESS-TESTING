@@ -66,18 +66,12 @@ while choice != "3" and choice != "4":
         print("Bien ajouté !")
 
     elif choice == "2":
-        query.print_list(person_name)
+        print(query.get_list(person_name))
 
     elif choice == "3" or choice == "4":
         print("A bientôt !")
 
     else:
         print("Veuillez entrer 1, 2, 3, ou 4.")
-
-
-
-
-
-
 
 conn.close()
