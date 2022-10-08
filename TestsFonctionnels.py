@@ -58,4 +58,6 @@ assert c.fetchone()[0]==7
 list = query.get_list("Emma")
 assert "7 Orange" in list and "5 Pomme" in list
 
+conn.close()
 os.remove("test2.db")
+print("Tests fonctionnels : OK")
