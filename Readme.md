@@ -4,28 +4,18 @@ On lance le script python, on nous demande qui on est
 L'utilisateur répond un nom, s'il existe déjà il lui indique sa liste actuelle, sinon il lui dit que c'est un nouvel utilisateur avec une liste vide  
 Après ça, on propose à l'utilisateur trois choix :
  - ajouter une quantité d'un article de sa liste
- - supprime une quantité d'un article de sa liste
+ - supprime une quantité d'un article de sa liste ?
  - afficher sa liste
  - (quitter) ?
 
 
 ## Architecture   
 
-On a trois classes donc trois tables dans SQLite :  
- - Person, a un id (autoincrémenté) et un nom
- - Item, a un id (autoincrémenté) et un nom
- - Quantity, possède deux clés étrangères qui lui servent de clé primaire (id Person, id Item), et un attribut qty (c'est une table d'association)
+On a deux fichiers principaux pour faire marcher notre programme :  
+ - `Query.py`, qui représente une classe contenant toutes les méthodes d'appel à la base SQLite, donc création/modification/suppression de table
+ - `Main.py`, qui contient le programme principal, qui va afficher du texte et agir en fonction des réponses de l'utilisateur dans la console
 
 Peut être qu'un item et une personne n'ont pas besoin d'id parce qu'il ne peut y avoir qu'une seul item et qu'une seule personne du même nom
-
-## Partie codée  
-
-On a 4 fichiers, un par classe et un avec la partie main qui va lancer le script avec les commandes proposées.    
-Si c'est plus simple d'avoir un seul fichier c'est possible mais faut faire gaffe à ce que ce soit lisible.  
-
-Le main lance la base de données et crée les tables si elles n'existent pas encore (voir si on garde notre if en python ou si la condition if not exists dans CREATE TABLE fonctionne). Il demande le nom de la personne, affiche sa liste et lance un while true qui attend une requête ajout/supp de l'utilisateur.
-
-Les classes Item et Quantity n'ont qu'un constructeur (attention il doit en plus de créer l'objet python l'ajouter en base), et la classe Person a des méthodes d'ajout/suppression de la liste.
 
 ## Comportement dans le code  
 
@@ -66,6 +56,31 @@ soit on teste cohérence soit une seule connexion à la fois (plutôt sur la coh
 tests d'intégration sur toutes les méthodes 
 
 ## à faire
+
+l'utilisateur peut indiquer son nom :
+ - pas un nombre
+ - au moins deux caractères
+ - au plus 20 caractères (arbitraire)
+
+l'utilisateur peut agir jusqu'à 3 fois par itération :
+ - action
+ - objet
+ - quantité
+
+on teste l'action :
+ - entre 1, 2 ,3
+
+on teste l'objet :
+ - pas un nombre
+ - au moins deux caractères
+ - au plus 20 caractères (arbitraire)
+
+on teste la quantité :
+- un nombre
+- pas négatif ou nul
+- au plus 100 
+
+on doit faire une méthode qui print la liste ou "liste vide"
 
 - ajouter les cas extrêmes sur les input reçus (Bekir) => tester, mutation testing 
 - tests d'intégration (Tom)
