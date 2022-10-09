@@ -67,10 +67,10 @@ def get_correct_quantity():
 
 def main():
 
-    my_file = Path("test.db")
+    my_file = Path("liste_course.db")
     exists = my_file.is_file()
 
-    conn = sqlite3.connect('test.db')
+    conn = sqlite3.connect('liste_course.db')
     query = Query(conn)
 
     print("Opened database successfully")

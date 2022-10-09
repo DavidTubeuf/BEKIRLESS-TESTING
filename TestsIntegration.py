@@ -3,12 +3,12 @@ from Query import Query
 from pathlib import Path
 import os
 
-my_file = Path("test2.db")
+my_file = Path("test.db")
 if my_file.is_file():
-    os.remove("test2.db")
+    os.remove("test.db")
 
-conn = sqlite3.connect('test2.db')
-# Teste si la BDD est bien crée
+conn = sqlite3.connect('test.db')
+# Teste si la BDD est bien créée
 assert my_file.is_file()
 
 query = Query(conn)
@@ -59,5 +59,5 @@ list = query.get_list("Emma")
 assert "7 Orange" in list and "5 Pomme" in list
 
 conn.close()
-os.remove("test2.db")
-print("Tests fonctionnels : OK")
+os.remove("test.db")
+print("Tests d'intégration : OK")

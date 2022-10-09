@@ -1,7 +1,11 @@
+## Description de l'application  
+
+L'application est une liste de courses avec une interface en ligne de commandes. On peut ajouter des objets et lister sa liste, et elle prend en compte plusieurs utilisateurs.  
+
 ## Objectif de l'application   
 
 Lorsque nous lançons notre application, on demande le nom de l'utilisateur.  
-Si l'utilisateur existe déjà il lui indique sa liste actuelle, sinon il lui dit que c'est un nouvel utilisateur avec une liste vide.  
+Si l'utilisateur existe déjà il lui indique sa liste actuelle, sinon il lui crée son compte et lui dit que c'est un nouvel utilisateur avec une liste vide.  
 Après ça, on propose à l'utilisateur trois choix :
  - Ajouter une quantité d'un article de sa liste
  - Afficher sa liste
@@ -27,7 +31,7 @@ Pour exécuter les tests d'intégration :
 python3 TestsIntegration.py
 ```
 
-Pour exécuter les tests sur les inputs :
+Pour exécuter les tests unitaires sur les inputs :
 
 ```
 python3 TestExtreme.py
@@ -41,37 +45,40 @@ pip install mock
 
 ## Tests
 
-Concernant les tests, nous avons choisi de privilégier les tests d'intégration ainsi que les tests sur les inputs.
+Concernant les tests, nous avons d'abord choisi de privilégier les tests unitaires sur les inputs reçus, et les test d'intégration pour s'assurer que les méthodes requêtant la base ont le comportement souhaité.  
 
-Les tests d'intégration testent le bon fonctionnement de chacunes des méthodes en lien avec la base de données.
+**Tests d'intégration**  
+On utilise une base SQLite sur laquelle on fait différentes opérations :
+ - on crée les tables si on ne se base pas sur un fichier existant
+ - on insère des données, des `personnes`, des `objets` et des `quantités` d'objets dans une liste
+ - on vérifie l'existence de ces trois entités
+ - on modifie une quantité, en ajoutant à la liste un objet déjà existant
+Le fichier `TestsIntegration.py` crée une base SQLite de test, sur laquelle ces méthodes vont être comparées aux requêtes sql qu'elles sont censées reproduire.  
 
-Concernant les inputs, nous avons mis en place 2 stratégies :
+**Tests unitaires**  
+L'interaction avec la base de données étant testée, il faut à présent se concentrer sur l'interaction avec l'utilisateur.  
+Celui-ci va, à l'aide du terminal, fournir différents choix durant l'utilisation de l'application, notamment :
+ - l'action qu'il veut effectuer
+ - indiquer son nom
+ - indiquer l'objet qu'il souhaite ajouter
+ - indiquer la quantité dont il veut en ajouter  
 
-Nous testons dans un premier temps les cas "extrêmes", c'est à dire  xXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxX
+Ces 4 données doivent respecter certains critères :
+ - une quantité doit être un nombre, et a une valeur minimale et maximale
+ - un nom et un objet ne peuvent pas être un nombre, et ont une taille minimale et maximale
+ - une action se choisit par sa place dans la liste des actions, donc 1, 2 ou 3 et seulement ces trois choix.
 
-Nous utilisons également la méthode de fuzzing testing, pour tester aléatoirement les inputs de l'application.
+Pour chacune de ces données, une méthode s'occupe de sa récupération et de savoir si elle répond à tous les critères.  
+Ces méthodes peuvent être testées de manière unitaire en mockant la sortie de la fonction `input`.
 
-Tester si quantité pas numérique, si choix pas numérique
-Tester la taille d'un item (nb de caractères) la taille de la quantité aussi
-pas forcément besoin de pouvoir se déconnecter
-test sur l'input aussi, genre ctrl X est-ce que ça fait ce qu'on veut 
-test sur les insert, sur les update (vérifier qu'on veut bien ajouter à la quantité existante )
-test de base de données aussi, si on a le droit aux doublons etc
-tout ce qui paraît évident doit être testé
+**Tests d'interaction avec l'utilisateur**  
 
-fuzzing testing - tous les types d'input (item et nombre)
-surcharger la base  
-nom vide dans l'input
-soit on teste cohérence soit une seule connexion à la fois (plutôt sur la cohérence)
-- modif accessible sur l'autre session
-- deux modifs "en même temps" ne s'écrasent pas
+Les méthodes d'interaction avec la base et de filtrage des inputs sont testées, mais il faut s'assurer que l'interaction avec l'utilisateur a le comportement souhaité.  
+Pour cela, nous avons pensé à deux façons de faire :
 
-tests d'intégration sur toutes les méthodes 
+La méthode de `fuzzing testing`, qui consiste à envoyer des inputs aléatoires à l'application, nous permettra de savoir si elle réagit de la bonne manière, ex : si une valeur est incorrecte, elle indique l'erreur et propose d'en renseigner une nouvelle.  
 
-on doit faire une méthode qui print la liste ou "liste vide"
+Tester la cohérence de l'application. Même si la base est locale, l'application stocke plusieurs utilisateurs et peut même être lancée plusieurs fois en même temps avec le même compte. On doit donc s'assurer de la cohérence des données, qu'un changement sur le compte 1 fait par l'utilisateur A se répercute sur le compte 1 utilisé par l'utilisateur B. 
 
-- ajouter les cas extrêmes sur les input reçus (Bekir) => tester, mutation testing 
-- tests d'intégration (Tom)
-- tests sur les input (sûrement un bash) / fuzzing (Louis)
-- tests sur le fonctionnement de la bdd (cohérence, surcharge) sûrement un bash aussi du coup (david)
-- 
+Ces deux méthodes de test n'ont pas encore été implémentées, nous avons souhaité nous concentrer sur les tests techniques en priorité pour s'assurer du bon fonctionnement interne de l'application.  
+Nous avons également pensé à renforcer nos tests unitaires avec du `mutation testing`, même si les cas pouvant être mutés sont assez restreints.

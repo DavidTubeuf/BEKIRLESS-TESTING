@@ -54,11 +54,6 @@ class Query:
     # UPDATE 
 
     def add_quantity(self, person_name, item_name, added_qty):
-        # on vérifie que l'item existe (methode exists de la classe item)
-        # si non on le crée et on l'ajoute à la liste
-        # si oui, on regarde si déjà dans la liste de self (method exists de classe quantity)
-            # si non, on crée un objet quantity
-            # si oui, on modifie cet objet
         cur = self.conn.cursor()
         cur.execute("UPDATE QUANTITY SET QTY = QTY + ? WHERE PERSONNAME = ? AND ITEMNAME = ?", (added_qty, person_name, item_name))
         self.conn.commit()
