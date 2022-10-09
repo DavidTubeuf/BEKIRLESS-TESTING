@@ -146,3 +146,9 @@ def test_get_correct_quantity():
         assert get_correct_quantity() == 75
     with mock.patch('builtins.input', return_value=100):
         assert get_correct_quantity() == 100
+
+
+test_get_correct_name()
+test_get_correct_action()
+test_get_correct_item()
+test_get_correct_quantity()
