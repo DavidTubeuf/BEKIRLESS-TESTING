@@ -32,7 +32,7 @@ atheris.Setup(sys.argv, test_get_correct_name)
 atheris.instrument_all();
 atheris.Fuzz()
 
-#fuzzing name
+#fuzzing item
 atheris.Setup(sys.argv, test_get_correct_item)
 atheris.instrument_all();
 atheris.Fuzz()
