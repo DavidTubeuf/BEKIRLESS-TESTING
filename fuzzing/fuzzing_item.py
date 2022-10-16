@@ -1,7 +1,7 @@
 import atheris
 import mock
 import sys
-from ../Main import get_correct_item
+from Main import get_correct_item
 
 # Test the given item in input,
 def fuzzing(val):

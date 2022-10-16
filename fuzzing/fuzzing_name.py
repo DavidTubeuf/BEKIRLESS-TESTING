@@ -1,7 +1,7 @@
 import atheris
 import mock
 import sys
-from ../Main import get_correct_name
+from Main import get_correct_name
 
 # Test the given name in input,
 def fuzzing(val):
