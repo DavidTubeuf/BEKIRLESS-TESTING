@@ -23,6 +23,8 @@ assert c.fetchone()[0]==3
 assert query.person_exists("Emma") == False
 query.insert_person("Emma")
 # Teste que la personne Emma existe après la création
+c.execute("SELECT count(*) FROM PERSON WHERE name=\"Emma\"")
+assert c.fetchone()[0]==1
 assert query.person_exists("Emma")
 
 # Teste que la liste d'Emma est vide
@@ -32,6 +34,8 @@ assert query.get_list("Emma") == "Votre liste est vide."
 assert query.item_exists("Pomme") == False
 query.insert_item("Pomme")
 # Teste que l'objet pomme existe après la création
+c.execute("SELECT count(*) FROM Item WHERE name=\"Pomme\"")
+assert c.fetchone()[0]==1
 assert query.item_exists("Pomme")
 
 # Teste que la personne Emma ne possède pas de pommes
