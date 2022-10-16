@@ -6,18 +6,28 @@ from Main import get_correct_name, get_correct_action, get_correct_item, get_cor
 # Test the given name in input,
 def test_get_correct_name(name):
     with mock.patch('builtins.input', return_value=name):
-        assert get_correct_name() == ""
+        result = get_correct_name()
+        assert (result == "" || result == name)
 
 # Test the given name in input,
 def test_get_correct_action(action):
     with mock.patch('builtins.input', return_value=action):
-        assert get_correct_action() == ""
+        result = get_correct_action()
+        assert (result == "" || result == action)
 
 # Test the given name in input,
 def test_get_correct_item(item):
     with mock.patch('builtins.input', return_value=item):
-        assert get_correct_item() == ""
+        result = get_correct_item()
+        assert (result == "" || result == item)
 
+# Test the given name in quantity,
+def test_get_correct_quantity(item):
+    with mock.patch('builtins.input', return_value=quantity):
+        result = get_correct_quantity()
+        assert (result == "" || result == quantity)
+
+#fuzzing name
 atheris.Setup(sys.argv, test_get_correct_name)
 atheris.instrument_all();
 atheris.Fuzz()
@@ -29,5 +39,10 @@ atheris.Fuzz()
 
 #fuzzing action
 atheris.Setup(sys.argv, test_get_correct_action)
+atheris.instrument_all();
+atheris.Fuzz()
+
+#fuzzing quantity
+atheris.Setup(sys.argv, test_get_correct_quantity)
 atheris.instrument_all();
 atheris.Fuzz()
