@@ -4,7 +4,7 @@ from pathlib import Path
 import os
 import unittest
 
-class TestStringMethods(unittest.TestCase):
+class IntegrationTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
