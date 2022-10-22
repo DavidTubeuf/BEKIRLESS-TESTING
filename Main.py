@@ -16,14 +16,9 @@ def get_correct_name():
      - l'utilisateur entre CTRL + C
     """
     name = input()
-    try:
-        int(name)
-        assert False, "le nom de l'utilisateur ne peut pas être un nombre"
-    except:
-        pass
-
+    assert not name.isnumeric(), "le nom de l'utilisateur ne peut pas être un nombre"
     assert len(name) >= 2, "le nom de l'utilisateur doit faire au moins 2 caractères"
-    assert len(name) <= 20, "le nom de l'utilisateur doit faire au plus 20 caractères, il en fait " + str(len(name))
+    assert len(name) <= 20, "le nom de l'utilisateur doit faire au plus 20 caractères"
 
     return name
 
@@ -55,14 +50,9 @@ def get_correct_item():
      - l'utilisateur entre CTRL + C
     """
     item = input()
-    try:
-        int(item)
-        assert False, "le nom de l'objet à ajouter ne peut pas être un nombre"
-    except:
-        pass
-
+    assert not item.isnumeric(), "le nom de l'objet à ajouter ne peut pas être un nombre"
     assert len(item) >= 2, "le nom de l'objet doit faire au moins 2 caractères"
-    assert len(item) <= 20, "le nom de l'objet doit faire au plus 20 caractères, il en fait " + str(len(item))
+    assert len(item) <= 20, "le nom de l'objet doit faire au plus 20 caractères"
 
     return item
 
@@ -79,16 +69,12 @@ def get_correct_quantity():
      - l'utilisateur entre CTRL + C
     """
     quantity = input()
-    try:
-        int_qty = int(quantity)
-    except ValueError:
-        assert False, "la quantité à ajouter doit être un nombre"
-    
+    assert quantity.isnumeric(), "la quantité à ajouter doit être un nombre"
+    int_qty = int(quantity)    
     assert int_qty > 0, "la quantité à ajouter doit être strictement positive"
     assert int_qty <= 100, "la quantité à ajouter doit être inférieure ou égale à 100"
 
     return quantity
-
 
 def end_of_programm(conn):
     """
@@ -119,8 +105,8 @@ def app(db_name):
         print("Quel est votre nom ?")
         try:
             person_name = get_correct_name()
-        except AssertionError:
-            print("\nVeuillez repréciser,")
+        except AssertionError as e:  
+            print("\nVeuillez repréciser, " + str(e))
         except KeyboardInterrupt:
             return end_of_programm(conn)
 
@@ -155,8 +141,8 @@ def app(db_name):
             print("Quelle action souhaitez-vous effectuer ?")
             try:
                 action = get_correct_action()
-            except AssertionError:
-                print("\nVeuillez repréciser,")
+            except AssertionError as e:
+                print("\nVeuillez repréciser, " + str(e))
             except KeyboardInterrupt:
                 return end_of_programm(conn)
 
@@ -168,8 +154,8 @@ def app(db_name):
                 print("Quel objet voulez-vous ajouter ?")
                 try:
                     item = get_correct_item()
-                except AssertionError:
-                    print("\nVeuillez repréciser,")
+                except AssertionError as e:
+                    print("\nVeuillez repréciser, " + str(e))
                 except KeyboardInterrupt:
                     return end_of_programm(conn)
 
@@ -180,8 +166,8 @@ def app(db_name):
                 print("Quelle quantité voulez-vous ajouter ?")
                 try:
                     quantity = get_correct_quantity()
-                except AssertionError:
-                    print("\nVeuillez repréciser,")
+                except AssertionError as e:
+                    print("\nVeuillez repréciser, " + str(e))
                 except KeyboardInterrupt:
                     return end_of_programm(conn)
 
