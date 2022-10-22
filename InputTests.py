@@ -3,7 +3,7 @@ import mock
 import sys
 from Main import get_correct_name, get_correct_action, get_correct_item, get_correct_quantity
 
-class TestExtreme(unittest.TestCase):
+class InputTests(unittest.TestCase):
     
     # Test the given name in input,
     # if naming incorrect return an assert error with the problem,
