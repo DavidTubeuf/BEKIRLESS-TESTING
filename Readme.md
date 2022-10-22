@@ -1,6 +1,6 @@
 ## Description de l'application  
 
-L'application est une liste de courses avec une interface en ligne de commandes. On peut ajouter des objets et lister sa liste, et elle prend en compte plusieurs utilisateurs.  
+L'application est une liste de courses avec une interface en ligne de commandes. On peut ajouter des objets et afficher sa liste, et elle prend en compte plusieurs utilisateurs.  
 
 ## Objectif de l'application   
 
@@ -25,16 +25,22 @@ Pour exécuter le programme :
 python3 Main.py
 ```
 
-Pour exécuter les tests d'intégration :
+Pour lancer les tests sur la base de données :
 
 ```
-python3 TestsIntegration.py
+python3 DbTests.py
 ```
 
-Pour exécuter les tests unitaires sur les inputs :
+Pour lancer les tests unitaires sur les inputs :
 
 ```
-python3 TestExtreme.py
+python3 InputTests.py
+```
+
+Pour lancer les tests de comportement du programme :
+
+```
+python3 ParcoursTests.py
 ```
 
 NB : Il peut être nécessaire d'installer mock avec la commande suivante :
@@ -45,17 +51,18 @@ pip install mock
 
 ## Tests
 
-Concernant les tests, nous avons d'abord choisi de privilégier les tests unitaires sur les inputs reçus, et les test d'intégration pour s'assurer que les méthodes requêtant la base ont le comportement souhaité.  
+Concernant les tests, nous avons d'abord choisi de privilégier les tests unitaires sur les vérifications des input reçus, et sur les appels à la base SQLite.  
+Puis, nous nous sommes concentrés sur des exemples de parcours utilisateur de l'application, avec des inputs mockés ou sous la forme de fuzzing.
 
-**Tests d'intégration**  
+**Tests sur la base de données : DbTests**  
 On utilise une base SQLite sur laquelle on fait différentes opérations :
  - on crée les tables si on ne se base pas sur un fichier existant
  - on insère des données, des `personnes`, des `objets` et des `quantités` d'objets dans une liste
  - on vérifie l'existence de ces trois entités
  - on modifie une quantité, en ajoutant à la liste un objet déjà existant
-Le fichier `TestsIntegration.py` crée une base SQLite de test, sur laquelle ces méthodes vont être comparées aux requêtes sql qu'elles sont censées reproduire.  
+Le fichier `DbTests.py` crée une base SQLite de test, sur laquelle ces méthodes vont être comparées aux requêtes sql qu'elles sont censées reproduire.  
 
-**Tests unitaires**  
+**Tests sur les inputs : InputTests**  
 L'interaction avec la base de données étant testée, il faut à présent se concentrer sur l'interaction avec l'utilisateur.  
 Celui-ci va, à l'aide du terminal, fournir différents choix durant l'utilisation de l'application, notamment :
  - l'action qu'il veut effectuer
@@ -71,6 +78,15 @@ Ces 4 données doivent respecter certains critères :
 Pour chacune de ces données, une méthode s'occupe de sa récupération et de savoir si elle répond à tous les critères.  
 Ces méthodes peuvent être testées de manière unitaire en mockant la sortie de la fonction `input`.
 
+**Tests de différents parcours utilisateur : ParcoursTests**  
+Nous avons identifier plusieurs "parcours utilisateur type" que nous avons reproduit afin de les tester : 
+ - un utilisateur non connu de la base de donnée doit être créé en indiquant son nom
+ - un utilisateur non connu de la base de données doit avoir une liste vide une fois celui-ci créé
+ - il est possible de quitter l'application avec un CTRL-C, et l'action "3 - quitter le programme" a le même comportement
+ - l'ajout d'un objet dans la liste est atomique, si l'actioon n'est pas entièrement validée, ni objet ni quantité ne sont insérés en base
+ - l'ajout d'un objet non connu de la base de données dans une liste, crée l'objet en base et la quantité associée
+ - un utilisateur connu de la base de données aura sa liste d'affichée à sa connexion
+
 **Tests d'interaction avec l'utilisateur**  
 
 Les méthodes d'interaction avec la base et de filtrage des inputs sont testées, mais il faut s'assurer que l'interaction avec l'utilisateur a le comportement souhaité.  
@@ -82,3 +98,8 @@ Tester la cohérence de l'application. Même si la base est locale, l'applicatio
 
 Ces deux méthodes de test n'ont pas encore été implémentées, nous avons souhaité nous concentrer sur les tests techniques en priorité pour s'assurer du bon fonctionnement interne de l'application.  
 Nous avons également pensé à renforcer nos tests unitaires avec du `mutation testing`, même si les cas pouvant être mutés sont assez restreints.
+
+## Tests sans Mock  
+Les tests sur la vérification des inputs et sur les parcours utilisateur sont faits en mockant les méthodes `input` et `print` de Python. Nous avons trouvé cette manière de faire plus accessible et plus facile pour traiter tous les cas à traiter.  
+Sans les mocks, nous pouvions tester "à la main" en lançant l'application et en testant différents inputs, ou différents parcours, mais on perd tout l'intérêt d'automatisation des tests.  
+Nous aurions aussi pu créer un script qui appelle et interagit avec notre programme, celui-ci aurait générer les différents inputs, ou simuler les différents parcours utilisateur, et aurait comparé le texte reçu par l'application avec le texte attendu.
