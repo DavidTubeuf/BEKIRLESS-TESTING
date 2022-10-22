@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 import sqlite3
 from Query import Query
 from pathlib import Path
@@ -14,7 +13,7 @@ def get_correct_name():
      - le nom fait plus de 20 caractères
 
     Renvoie une Keyboard Interrupt si :
-     - l'utilisateur entre CTRL + X
+     - l'utilisateur entre CTRL + C
     """
     name = input()
     try:
@@ -36,7 +35,7 @@ def get_correct_action():
      - l'action n'est pas une string entre "1", "2" et "3"
 
     Renvoie une Keyboard Interrupt si :
-     - l'utilisateur entre CTRL + X
+     - l'utilisateur entre CTRL + C
     """
     action = input()
     assert action in ["1", "2", "3"], "l'action n'est pas celle attendue"
@@ -53,7 +52,7 @@ def get_correct_item():
      - le nom de l'objet fait plus de 20 caractères
 
     Renvoie une Keyboard Interrupt si :
-     - l'utilisateur entre CTRL + X
+     - l'utilisateur entre CTRL + C
     """
     item = input()
     try:
@@ -77,7 +76,7 @@ def get_correct_quantity():
      - la quantité est supérieure à 100
 
     Renvoie une Keyboard Interrupt si :
-     - l'utilisateur entre CTRL + X
+     - l'utilisateur entre CTRL + C
     """
     quantity = input()
     try:
@@ -99,15 +98,16 @@ def end_of_programm(conn):
     print("\nA bientôt !")
     return
 
-def main():
+def app(db_name):
 
-    my_file = Path("liste_course.db")
+    # lien ou création de la base de données
+    my_file = Path(db_name)
     exists = my_file.is_file()
 
-    conn = sqlite3.connect('liste_course.db')
+    conn = sqlite3.connect(db_name)
     query = Query(conn)
 
-    print("Opened database successfully")
+    print("Lien avec la base de données émis avec succès")
 
     if not exists :
         query.create_tables()
@@ -172,9 +172,6 @@ def main():
                     print("\nVeuillez repréciser,")
                 except KeyboardInterrupt:
                     return end_of_programm(conn)
-            
-            if not query.item_exists(item):
-                query.insert_item(item)
 
             # choix de la quantité à ajouter 
             print()
@@ -187,6 +184,9 @@ def main():
                     print("\nVeuillez repréciser,")
                 except KeyboardInterrupt:
                     return end_of_programm(conn)
+
+            if not query.item_exists(item):
+                query.insert_item(item)
 
             if query.quantity_exists(person_name, item):
                 query.add_quantity(person_name, item, quantity)
@@ -202,4 +202,4 @@ def main():
     return end_of_programm(conn)
 
 if __name__ == '__main__':
-    main()
+    app("liste_course.db")
