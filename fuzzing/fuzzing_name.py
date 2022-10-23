@@ -18,9 +18,9 @@ def fuzzing(val):
     the_exception = cm.exception
     res = str(the_exception)
     assert(res == "le nom de l'utilisateur ne peut pas être un nombre"
-           || res == "name can't be less than 2 letter"
-           || res == "name can't be more than 20 letter"
-           || returned_value == val)
+           or res == "name can't be less than 2 letter"
+           or res == "name can't be more than 20 letter"
+           or returned_value == val)
 
 #fuzzing name
 atheris.Setup(sys.argv, fuzzing)
