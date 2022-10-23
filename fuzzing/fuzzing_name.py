@@ -18,11 +18,11 @@ def fuzzing(val):
         try :
             returned_value = get_correct_name()
         except AssertionError as msg:
-            print("")
-#            assert(msg == "le nom de l'utilisateur ne peut pas être un nombre"
-#                    or msg == "le nom de l'utilisateur doit faire au moins 2 caractères"
-#                    or msg == "le nom de l'utilisateur doit faire au plus 20 caractères"
-#                    or returned_value == str(val))
+            msg = str(msg)
+            assert(msg == "le nom de l'utilisateur ne peut pas être un nombre"
+                    or msg == "le nom de l'utilisateur doit faire au moins 2 caractères"
+                    or msg == "le nom de l'utilisateur doit faire au plus 20 caractères"
+                    or returned_value == str(val))
 
 #fuzzing name
 atheris.Setup(sys.argv, fuzzing)
