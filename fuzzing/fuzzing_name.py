@@ -23,6 +23,6 @@ def fuzzing(val):
                     or returned_value == val)
 
 #fuzzing name
-atheris.Setup(sys.argv, f.fuzzing)
+atheris.Setup(sys.argv, fuzzing)
 atheris.instrument_all();
 atheris.Fuzz()
