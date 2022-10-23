@@ -16,7 +16,7 @@ def fuzzing(val):
     with mock.patch('builtins.input', return_value=val):
         try :
             returned_value = get_correct_name()
-        except AssertionErrir as msg:
+        except AssertionError as msg:
             assert(msg == "le nom de l'utilisateur ne peut pas être un nombre"
                     or msg == "name can't be less than 2 letter"
                     or msg == "name can't be more than 20 letter"
