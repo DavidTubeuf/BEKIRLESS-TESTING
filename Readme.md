@@ -49,6 +49,22 @@ NB : Il peut être nécessaire d'installer mock avec la commande suivante :
 pip install mock
 ```
 
+Pour lancer les tests de fuzzing :
+
+```
+python3 fuzzing/fuzzing_action.py
+python3 fuzzing/fuzzing_item.py
+python3 fuzzing/fuzzing_name.py
+python3 fuzzing/fuzzing_quantity.py
+```
+
+
+NB : Il peut être nécessaire d'installer atheris avec la commande suivante :
+
+```
+pip3 install atheris
+```
+
 ## Tests
 
 Concernant les tests, nous avons d'abord choisi de privilégier les tests unitaires sur les vérifications des input reçus, et sur les appels à la base SQLite.  
@@ -92,7 +108,8 @@ Nous avons identifier plusieurs "parcours utilisateur type" que nous avons repro
 Les méthodes d'interaction avec la base et de filtrage des inputs sont testées, mais il faut s'assurer que l'interaction avec l'utilisateur a le comportement souhaité.  
 Pour cela, nous avons pensé à deux façons de faire :
 
-La méthode de `fuzzing testing`, qui consiste à envoyer des inputs aléatoires à l'application, nous permettra de savoir si elle réagit de la bonne manière, ex : si une valeur est incorrecte, elle indique l'erreur et propose d'en renseigner une nouvelle.  
+La méthode de `fuzzing testing`, qui consiste à envoyer des inputs aléatoires à l'application, nous permettra de savoir si elle réagit de la bonne manière, ex : si une valeur est incorrecte, elle indique l'erreur et propose d'en renseigner une nouvelle.
+Chaque méthode se trouve dans des fichiers différents car un test dure beaucoup de temps.
 
 Tester la cohérence de l'application. Même si la base est locale, l'application stocke plusieurs utilisateurs et peut même être lancée plusieurs fois en même temps avec le même compte. On doit donc s'assurer de la cohérence des données, qu'un changement sur le compte 1 fait par l'utilisateur A se répercute sur le compte 1 utilisé par l'utilisateur B. 
 
