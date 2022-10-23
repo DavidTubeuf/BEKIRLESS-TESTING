@@ -11,21 +11,18 @@ sys.path.insert(0, parentdir)
 
 from Main import get_correct_name
 
-class FuzzingTests(unittest.TestCase):
-    # Test the given name in input,
-    def fuzzing(val):
-        with self.assertRaises(Exception) as cm:
-            with mock.patch('builtins.input', return_value=val):
-                returned_value = get_correct_name()
-        the_exception = cm.exception
-        res = str(the_exception)
-        assert(res == "le nom de l'utilisateur ne peut pas être un nombre"
-               or res == "name can't be less than 2 letter"
-               or res == "name can't be more than 20 letter"
-               or returned_value == val)
+# Test the given name in input,
+def fuzzing(val):
+    with mock.patch('builtins.input', return_value=val):
+        try :
+            returned_value = get_correct_name()
+        except AssertionErrir as msg:
+            assert(msg == "le nom de l'utilisateur ne peut pas être un nombre"
+                    or msg == "name can't be less than 2 letter"
+                    or msg == "name can't be more than 20 letter"
+                    or returned_value == val)
 
-if __name__ == '__main__':
-    f = FuzzingTests()
-    atheris.Setup(sys.argv, f.fuzzing)
-    atheris.instrument_all();
-    atheris.Fuzz()
+#fuzzing name
+atheris.Setup(sys.argv, f.fuzzing)
+atheris.instrument_all();
+atheris.Fuzz()
