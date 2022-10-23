@@ -21,7 +21,7 @@ def fuzzing(val):
             assert(msg == "le nom de l'utilisateur ne peut pas être un nombre"
                     or msg == "name can't be less than 2 letter"
                     or msg == "name can't be more than 20 letter"
-                    or returned_value == val)
+                    or returned_value == str(val))
 
 #fuzzing name
 atheris.Setup(sys.argv, fuzzing)
