@@ -13,11 +13,10 @@ from Main import get_correct_name
 
 # Test the given name in input,
 def fuzzing(val):
-    with mock.patch('builtins.input', return_value=val):
+    with mock.patch('builtins.input', return_value=str(val)):
         try :
             returned_value = get_correct_name()
         except AssertionError as msg:
-            msg = str(msg)
             assert(msg == "le nom de l'utilisateur ne peut pas être un nombre"
                     or msg == "name can't be less than 2 letter"
                     or msg == "name can't be more than 20 letter"
