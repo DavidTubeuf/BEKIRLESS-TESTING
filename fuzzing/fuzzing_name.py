@@ -20,7 +20,7 @@ def fuzzing(val):
         except AssertionError as msg:
             assert(msg == "le nom de l'utilisateur ne peut pas être un nombre"
                     or msg == "le nom de l'utilisateur doit faire au moins 2 caractères"
-                    or msg == "le nom de l'utilisateur doit faire au plus 20 caractères")
+                    or msg == "le nom de l'utilisateur doit faire au plus 20 caractères"
                     or returned_value == str(val))
 
 #fuzzing name
