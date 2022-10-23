@@ -13,6 +13,7 @@ from Main import get_correct_name
 
 # Test the given name in input,
 def fuzzing(val):
+    returned_value = ""
     with mock.patch('builtins.input', return_value=str(val)):
         try :
             returned_value = get_correct_name()
