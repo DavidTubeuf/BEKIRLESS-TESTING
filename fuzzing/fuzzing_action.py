@@ -12,11 +12,16 @@ from Main import get_correct_action
 
 # Test the given action in input,
 def fuzzing(val):
-    with mock.patch('builtins.input', return_value=val):
-        result = get_correct_action()
-        assert (result == "" or result == val)
+    returned_value = ""
+    with mock.patch('builtins.input', return_value=str(val)):
+        try :
+            returned_value = get_correct_action()
+        except AssertionError as msg:
+            msg = str(msg)
+            assert(msg == "l'action n'est pas celle attendue"
+                    or returned_value == str(val))
 
-#fuzzing quantity
+#fuzzing action
 atheris.Setup(sys.argv, fuzzing)
 atheris.instrument_all();
 atheris.Fuzz()

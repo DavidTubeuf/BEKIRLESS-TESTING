@@ -12,9 +12,16 @@ from Main import get_correct_item
 
 # Test the given item in input,
 def fuzzing(val):
-    with mock.patch('builtins.input', return_value=val):
-        result = get_correct_item()
-        assert (result == "" or result == val)
+    returned_value = ""
+    with mock.patch('builtins.input', return_value=str(val)):
+        try :
+            returned_value = get_correct_item()
+        except AssertionError as msg:
+            msg = str(msg)
+            assert(msg == "le nom de l'objet à ajouter ne peut pas être un nombre"
+                    or msg == "le nom de l'objet doit faire au moins 2 caractères"
+                    or msg == "le nom de l'objet doit faire au plus 20 caractères"
+                    or returned_value == str(val))
 
 #fuzzing item
 atheris.Setup(sys.argv, fuzzing)

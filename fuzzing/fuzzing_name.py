@@ -1,4 +1,3 @@
-import unittest
 import atheris
 import mock
 import sys
