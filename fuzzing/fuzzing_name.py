@@ -17,6 +17,7 @@ def fuzzing(val):
         try :
             returned_value = get_correct_name()
         except AssertionError as msg:
+            print(msg)
             assert(msg == "le nom de l'utilisateur ne peut pas être un nombre"
                     or msg == "name can't be less than 2 letter"
                     or msg == "name can't be more than 20 letter"
