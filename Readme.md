@@ -106,17 +106,15 @@ Nous avons identifier plusieurs "parcours utilisateur type" que nous avons repro
 **Tests d'interaction avec l'utilisateur**  
 
 Les méthodes d'interaction avec la base et de filtrage des inputs sont testées, mais il faut s'assurer que l'interaction avec l'utilisateur a le comportement souhaité.  
-Pour cela, nous avons pensé à deux façons de faire :
-
-La méthode de `fuzzing testing`, qui consiste à envoyer des inputs aléatoires à l'application, nous permettra de savoir si elle réagit de la bonne manière, ex : si une valeur est incorrecte, elle indique l'erreur et propose d'en renseigner une nouvelle.
+Pour cela, nous avons utilisé la méthode de `fuzzing testing`, qui consiste à envoyer des inputs aléatoires à l'application, nous permettra de savoir si elle réagit de la bonne manière, ex : si une valeur est incorrecte, elle indique l'erreur et propose d'en renseigner une nouvelle.
 Chaque méthode se trouve dans des fichiers différents car un test dure beaucoup de temps.
-
-Tester la cohérence de l'application. Même si la base est locale, l'application stocke plusieurs utilisateurs et peut même être lancée plusieurs fois en même temps avec le même compte. On doit donc s'assurer de la cohérence des données, qu'un changement sur le compte 1 fait par l'utilisateur A se répercute sur le compte 1 utilisé par l'utilisateur B. 
-
-Ces deux méthodes de test n'ont pas encore été implémentées, nous avons souhaité nous concentrer sur les tests techniques en priorité pour s'assurer du bon fonctionnement interne de l'application.  
-Nous avons également pensé à renforcer nos tests unitaires avec du `mutation testing`, même si les cas pouvant être mutés sont assez restreints.
 
 ## Tests sans Mock  
 Les tests sur la vérification des inputs et sur les parcours utilisateur sont faits en mockant les méthodes `input` et `print` de Python. Nous avons trouvé cette manière de faire plus accessible et plus facile pour traiter tous les cas à traiter.  
 Sans les mocks, nous pouvions tester "à la main" en lançant l'application et en testant différents inputs, ou différents parcours, mais on perd tout l'intérêt d'automatisation des tests.  
 Nous aurions aussi pu créer un script qui appelle et interagit avec notre programme, celui-ci aurait générer les différents inputs, ou simuler les différents parcours utilisateur, et aurait comparé le texte reçu par l'application avec le texte attendu.
+
+## Possibles tests à ajouter
+
+Nous aurions pu tester la cohérence de l'application. Même si la base est locale, l'application stocke plusieurs utilisateurs et peut même être lancée plusieurs fois en même temps avec le même compte. On doit donc s'assurer de la cohérence des données, qu'un changement sur le compte 1 fait par l'utilisateur A se répercute sur le compte 1 utilisé par l'utilisateur B. 
+Nous avons également pensé à renforcer nos tests unitaires avec du `mutation testing`, mais les cas pouvant être mutés étant trop rares nous nous sommes abstenus.
